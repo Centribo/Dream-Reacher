@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
 
+	private RopeScript rope;
+
 	// Use this for initialization
 	void Start () {
 	
