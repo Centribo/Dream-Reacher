@@ -35,7 +35,7 @@ public class GenerateTile : MonoBehaviour {
 		GameObject obj = Instantiate(tile, position, Quaternion.identity) as GameObject;
 		obj.transform.parent = transform;
 		float tileWidth = Random.Range (tileLength / 2.0f, tileLength * 1.5f);
-		obj.transform.localScale = new Vector2 (tileWidth, 0.5f);
+		obj.transform.localScale = new Vector2 (tileWidth, tileLength);
 		obj.AddComponent <TileScript>();
 	}
 

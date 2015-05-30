@@ -46,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
 		if(isAiming){ Aim(); }
 		
 		Animate();
+		Debug.Log(Input.GetAxis("Horizontal"));
 	}
 
 	bool IsGrounded (){ //Returns true if player is standing on ground, false otherwise

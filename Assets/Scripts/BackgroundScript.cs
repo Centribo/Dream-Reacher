@@ -15,7 +15,7 @@ public class BackgroundScript : MonoBehaviour {
 		//Debug.Log (currentBackground.transform.position.y + " " + Camera.main.transform.position.y);
 		if (!isVisible (currentBackground)) {
 			Debug.Log (currentBackground);
-			Vector2 newPosition = new Vector2(currentBackground.transform.position.x, currentBackground.transform.position.y + 48);
+			Vector2 newPosition = new Vector2(currentBackground.transform.position.x, currentBackground.transform.position.y + 36);
 			currentBackground.transform.position = newPosition;
 			currentBackground = nextObject();
 		}
