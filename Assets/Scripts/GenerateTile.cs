@@ -4,36 +4,43 @@ using System.Collections;
 public class GenerateTile : MonoBehaviour {
 
 	public GameObject tile;
+	public float mapHeight;
+	public float mapWidth;
+	public float tileHeightSpacing;
+	public float tileLength;
 
 	private float lastDrawnHeight;
 	private float lastDrawnX;
+
 	// Use this for initialization
 	void Start () {
-		float height = Camera.main.pixelHeight;
-		float width = Camera.main.pixelWidth;
-		lastDrawnHeight = height / 3.0f;
-		lastDrawnX = Random.Range (0, width);
+		lastDrawnHeight = mapHeight / 3.0f;
+		lastDrawnX = Random.Range (0, mapWidth);
 
 		Generate ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("LastHeight: " + lastDrawnHeight + " Camera: " + GetCameraHeight ());
+		//Debug.Log ("LastHeight: " + lastDrawnHeight + " Camera: " + GetCameraHeight ());
 		if (lastDrawnHeight < GetCameraHeight ()) {
 			Generate();
 		}
 	}
 
 	//Generate a tile
-	void GenerateGameTile(float x, float y) {
-		Vector2 position = Camera.main.ScreenToWorldPoint (new Vector2 (x, y));
+	private void GenerateGameTile(float x, float y) {
+		Vector2 position = new Vector2 (x-(mapWidth/2.0f), y-(mapHeight/2.0f));
+		Debug.Log (position);
 		GameObject obj = Instantiate(tile, position, Quaternion.identity) as GameObject;
-		obj.transform.localScale = new Vector2 (10.0f, 0.5f);
+		obj.transform.parent = transform;
+		float tileWidth = Random.Range (tileLength / 2.0f, tileLength * 1.5f);
+		obj.transform.localScale = new Vector2 (tileWidth, 0.5f);
+		obj.AddComponent <TileScript>();
 	}
 
 	//Higher chance of picking a number furthur from x0
-	float ScaledRandom(float x0, float width) {
+	private float ScaledRandom(float x0, float width) {
 		float leftRange = -(x0) * (x0 + 1) / 2.0f;
 		float rightRange = (width-x0) * ((width-x0) + 1) / 2.0f;
 		//Debug.Log ("left: "+leftRange+" Right: "+rightRange);
@@ -48,16 +55,15 @@ public class GenerateTile : MonoBehaviour {
 		return n;
 	}
 	// Generate starting tiles
-	void Generate () {
-		float width = Camera.main.pixelWidth;
-		while (lastDrawnHeight < GetCameraHeight()+100) {
+	private void Generate () {
+		while (lastDrawnHeight < GetCameraHeight()+2) {
 			GenerateGameTile(lastDrawnX, lastDrawnHeight);
-			lastDrawnHeight = lastDrawnHeight + Random.Range(50,75);
-			lastDrawnX = ScaledRandom(lastDrawnX, width);
+			lastDrawnHeight = lastDrawnHeight + Random.Range(tileHeightSpacing/2.0f, tileHeightSpacing*1.5f);
+			lastDrawnX = ScaledRandom(lastDrawnX*100, mapWidth*100)/100;
 		}
 	}
 
-	float GetCameraHeight() {
-		return (Camera.main.ViewportToScreenPoint(Camera.main.transform.position).y + Camera.main.pixelHeight);
+	private float GetCameraHeight() {
+		return Camera.main.transform.position.y + mapHeight;
 	}
 }
