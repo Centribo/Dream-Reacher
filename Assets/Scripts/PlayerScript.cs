@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour {
 	const float JUMP_FORCE = 200;
 	const float MAX_SPEED = 1;
 
-	private RopeScript rope;
+	RopeScript rope;
 	Rigidbody2D rb;
 
 	// Use this for initialization
