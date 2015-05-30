@@ -6,6 +6,8 @@ public class PlayerScript : MonoBehaviour {
 	const float JUMP_FORCE = 200;
 	const float MAX_SPEED = 1;
 
+	public GameObject ropePrefab;
+
 	RopeScript rope;
 	Rigidbody2D rb;
 	bool isAiming;
@@ -39,14 +41,14 @@ public class PlayerScript : MonoBehaviour {
 	//To be called once to fire a rope
 	void Fire (){
 		Debug.Log("Fire!");
-		float angleDeg = Vector2.Angle(transform.position, target);
-		Debug.Log(angleDeg);
+		float angleDeg = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
+		Debug.Log("Angle: " + angleDeg);
 	}
 
 	//To be constantly called to update where the player is firing
 	void Aim (){
-		Debug.Log("Aiming!");
-		Debug.Log(Input.GetAxis("Aim"));
+		//Debug.Log("Aiming!");
+		//Debug.Log(Input.GetAxis("Aim"));
 		Debug.DrawLine(transform.position, target);
 		target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
 	}
