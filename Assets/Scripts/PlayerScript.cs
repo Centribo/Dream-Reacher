@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		IsGrounded();
+		IsGrounded();Debug.Log (Input.GetAxis ("AimX"));
 		if(Input.GetButtonDown("Jump") && IsGrounded()){
 			Jump();
 		}
@@ -42,6 +42,7 @@ public class PlayerScript : MonoBehaviour {
 			animator.SetBool("Running", false);
 		}
 		if(Input.GetButtonDown("Aiming")){ isAiming = true; Debug.Log("Start aiming!"); target = (Vector2)transform.position + Vector2.up; }
+		if(isAiming){ Aim (); }
 		if(Input.GetButtonUp("Aiming")){ isAiming = false; Fire(); }
 		if(isAiming){ Aim(); }
 		
@@ -94,6 +95,8 @@ public class PlayerScript : MonoBehaviour {
 	//To be constantly called to update where the player is firing
 	void Aim (){
 		Debug.DrawLine(transform.position, target);
-		target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
+
+		target = (Vector2)transform.position + new Vector2(Input.GetAxis ("AimX"), -Input.GetAxis ("AimY"));
+		//target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
 	}
 }
