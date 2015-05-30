@@ -31,7 +31,7 @@ public class RopeScript : MonoBehaviour {
 			case 3:
 				initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
 				
-				if(Vector2.Distance(initial, end) <= 0.5){
+				if(Vector2.Distance(initial, end) <= 1){
 					Destroy(gameObject);
 				}
 			break;
@@ -73,6 +73,7 @@ public class RopeScript : MonoBehaviour {
 				float magnitude = 500 * 1/Vector2.Distance(end, initial);
 				Debug.Log("Mag: " + magnitude);
 				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+				Destroy(gameObject);
 			}
 		}
 	}	
