@@ -31,7 +31,7 @@ public class GenerateTile : MonoBehaviour {
 	//Generate a tile
 	private void GenerateGameTile(float x, float y) {
 		Vector2 position = new Vector2 (x-(mapWidth/2.0f), y-(mapHeight/2.0f));
-		Debug.Log (position);
+		//Debug.Log (position);
 		GameObject obj = Instantiate(tile, position, Quaternion.identity) as GameObject;
 		obj.transform.parent = transform;
 		float tileWidth = Random.Range (tileLength / 2.0f, tileLength * 1.5f);
