@@ -36,9 +36,21 @@ public class RopeScript : MonoBehaviour {
 				}
 			break;
 		}
-		lineRenderer.SetPosition(0, initial);
-		lineRenderer.SetPosition(1, end);
+		UpdateLine();
 		Debug.DrawLine(end, target);
+	}
+
+	void UpdateLine(){
+		float dist = Vector2.Distance(initial, end);
+		int segments = 1+(int)(dist/0.15f);
+		lineRenderer.SetVertexCount(segments);
+		lineRenderer.SetPosition(0, initial);
+		float deltaX = (end.x - initial.x)/segments;
+		float deltaY = (end.y - initial.y)/segments;
+		for(int i = 1; i < segments; i++){
+			lineRenderer.SetPosition(i, initial + new Vector3(deltaX * i, deltaY * i, 0)); 
+		}
+		lineRenderer.SetPosition(segments-1, end);
 	}
 
 	void Shrink(){
@@ -65,9 +77,7 @@ public class RopeScript : MonoBehaviour {
 	void CheckCollision(){
 		RaycastHit2D hit = Physics2D.Linecast(initial, end);
 		if(hit.collider == null){
-			Debug.Log("We've hit nothing so far! HOLY HSIT");
 		} else {
-			Debug.Log(hit.collider.tag);
 			if(hit.collider.tag == "Ground"){
 				state = 3;
 				float magnitude = 500 * 1/Vector2.Distance(end, initial);

@@ -9,7 +9,9 @@ public class PlayerScript : MonoBehaviour {
 	public GameObject ropePrefab;
 	public float ropeRange;
 	public float ropeSpeed;
+	public float cooldown;
 
+	float cooldownTimer;
 	Animator animator;
 	GameObject rope;
 	Rigidbody2D rb;
@@ -24,11 +26,14 @@ public class PlayerScript : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D>();
 		isAiming = false;
 		target = new Vector2(0, 0);
+		cooldownTimer = cooldown;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		IsGrounded();Debug.Log (Input.GetAxis ("AimX"));
+		//IsGrounded();
+		cooldownTimer -= Time.deltaTime;
+		Debug.Log (Input.GetAxis ("Horizontal"));
 		if(Input.GetButtonDown("Jump") && IsGrounded()){
 			Jump();
 		}
@@ -42,12 +47,10 @@ public class PlayerScript : MonoBehaviour {
 			animator.SetBool("Running", false);
 		}
 		if(Input.GetButtonDown("Aiming")){ isAiming = true; Debug.Log("Start aiming!"); target = (Vector2)transform.position + Vector2.up; }
-		if(isAiming){ Aim (); }
-		if(Input.GetButtonUp("Aiming")){ isAiming = false; Fire(); }
+		if(Input.GetButtonUp("Aiming") && cooldownTimer <= 0){ isAiming = false; Fire(); }
 		if(isAiming){ Aim(); }
 		
 		Animate();
-		Debug.Log(Input.GetAxis("Horizontal"));
 		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, Mathf.Max(transform.position.y-2.0f, Camera.main.transform.position.y), Camera.main.transform.position.z);
 	}
 
@@ -83,6 +86,7 @@ public class PlayerScript : MonoBehaviour {
 
 	//To be called once to fire a rope
 	void Fire (){
+		cooldownTimer = cooldown;
 		float angleDeg = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
 		angleDeg -= 90;
 		angleDeg *= -1;
