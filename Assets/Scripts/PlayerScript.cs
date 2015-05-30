@@ -25,7 +25,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 		rb.velocity = new Vector2(Mathf.Clamp(Input.GetAxis("Horizontal"), -MAX_SPEED, MAX_SPEED), rb.velocity.y);
 
-		if(Input.GetButtonDown("Aiming")){ isAiming = true; Debug.Log("Start aiming!"); target = (Vector2)transform.position + Vector2.up; }
+		if(Input.GetButtonDown("Aiming")){ isAiming = true; Debug.Log("Start aiming!"); target = Vector2.zero; }
 		if(Input.GetButtonUp("Aiming")){ isAiming = false; Fire(); }
 		if(isAiming){ Aim(); }
 	}
@@ -39,15 +39,15 @@ public class PlayerScript : MonoBehaviour {
 	//To be called once to fire a rope
 	void Fire (){
 		Debug.Log("Fire!");
-		float angleDeg = Vector2.Angle(transform.position, target);
-		Debug.Log(angleDeg);
+		float angleDeg = Vector2.Angle(Vector2.zero, target);
+		Debug.Log("Angle: " + angleDeg);
 	}
 
 	//To be constantly called to update where the player is firing
 	void Aim (){
 		Debug.Log("Aiming!");
 		Debug.Log(Input.GetAxis("Aim"));
-		Debug.DrawLine(transform.position, target);
+		Debug.DrawLine(Vector2.zero, target);
 		target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
 	}
 }
