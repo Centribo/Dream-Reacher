@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dff28a941a797644997eb04707d5ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ropePrefab: {fileID: 0}
+  ropePrefab: {fileID: 100000, guid: b9a813aafa5e1f046893b3108328d1e9, type: 2}
 --- !u!212 &21255060
 SpriteRenderer:
   m_ObjectHideFlags: 1

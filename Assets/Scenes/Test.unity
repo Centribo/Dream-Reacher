@@ -210,6 +210,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11499788, guid: d8121dfb221adaa479726e67518484d6, type: 2}
+      propertyPath: ropeRange
+      value: 2.70000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499788, guid: d8121dfb221adaa479726e67518484d6, type: 2}
+      propertyPath: ropeSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d8121dfb221adaa479726e67518484d6, type: 2}
   m_IsPrefabParent: 0
