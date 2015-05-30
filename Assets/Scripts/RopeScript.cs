@@ -19,6 +19,7 @@ public class RopeScript : MonoBehaviour {
 	private float _dist;
 	private float _vel;
 	private float _count = 0;
+	private bool _pullRopeBack = false;
 	private LineRenderer _lineRenderer; 	// line Renderer Controller
 	private RopeCollisionCheckScript _ropeCollisioinScript;
 	
@@ -34,17 +35,25 @@ public class RopeScript : MonoBehaviour {
 	void Update() {
 		// render line only when the rope is fired
 		if (_ropeFired && _count < _dist) {
-			_count += .1f/_vel;
-			float x = Mathf.Lerp(0, _dist, _count);
+
+			float x;
 			Vector3 start = _origin;
 			Vector3 end = _destination;
-
-			Vector3 line = x * Vector3.Normalize(end - start) + start;
-
+			Vector3 line;
+			if (_pullRopeBack) {
+				_count += .1f/_vel;
+				x = Mathf.Lerp(0, _dist, _count);
+				line = end -  x * Vector3.Normalize(end - start);
+			}
+			else {
+				_count += .1f/_vel;
+				x = Mathf.Lerp(0, _dist, _count);
+				line = x * Vector3.Normalize(end - start) + start;
+			}
 			_lineRenderer.SetPosition(1, line);
 
 			// Sending signal to the collision check when everything is done
-			if (ReachedDestCheck (line, _destination)) {
+			if (!_pullRopeBack && ReachedDestCheck (line, _destination)) {
 				_ropeFired = false;
 				_ropeCollisioinScript.ReachedDest = true;
 				Debug.Log  ("Send");
@@ -78,5 +87,10 @@ public class RopeScript : MonoBehaviour {
 	private bool ReachedDestCheck (Vector3 currPos, Vector3 targetPos) {
 		return (Mathf.Abs(targetPos.x - currPos.x) <= 0.01)
 			 	&& (Mathf.Abs(targetPos.y - currPos.y) <= 0.01);
+	}
+	public void PullRopeBack () {
+		_count = 0;
+		_ropeFired = true;
+		_pullRopeBack = true;
 	}
 }
