@@ -47,6 +47,7 @@ public class PlayerScript : MonoBehaviour {
 		
 		Animate();
 		Debug.Log(Input.GetAxis("Horizontal"));
+		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, transform.position.y-2.0f, Camera.main.transform.position.z);
 	}
 
 	bool IsGrounded (){ //Returns true if player is standing on ground, false otherwise
