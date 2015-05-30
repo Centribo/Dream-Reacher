@@ -18,7 +18,7 @@ public class RopeCollisionCheckScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (ReachedDest && !_hitCollider && !_sentSignal) {
-			GetComponent<RopeScript>().PullRopeBack();
+			GetComponent<RopeScriptOld>().PullRopeBack();
 			Debug.Log ("i didnt hit anythign");
 			_sentSignal = true;
 		}
@@ -42,8 +42,8 @@ public class RopeCollisionCheckScript : MonoBehaviour {
 		}
 		// when the rope hits a platform
 		else if (collider.gameObject.tag == "Ground") {
-			GetComponent<RopeScript>().SwapOriginDest(collider.transform.position);
-			GetComponent<RopeScript>().PullRopeBack();
+			GetComponent<RopeScriptOld>().SwapOriginDest(collider.transform.position);
+			GetComponent<RopeScriptOld>().PullRopeBack();
 
 		}
 	}

@@ -1,58 +1,82 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(RopeCollisionCheckScript))]
 public class RopeScript : MonoBehaviour {
-	/// <summary>
-	/// test codes	
-	/// </summary>
-	public Vector2 test_pos;
-	public float test_angle; 
-	public float test_vel;
-	public float test_range;
 
-	private bool _ropeFired;
-	private Vector3 _destination;
-	private Vector3 _origin;
-	private float _dist;
-	private float _vel;
-	private float _count = 0;
-	private bool _pullRopeBack = false;
-	private LineRenderer _lineRenderer; 	// line Renderer Controller
-	private RopeCollisionCheckScript _ropeCollisioinScript;
+	GameObject player;
+	Vector3 end;
+	Vector3 target;
+	Vector3 initial;
+	LineRenderer lineRenderer;
+	float percent;
+	float vel;
+	int state; //0 Static, 1 being fired, 2 Retracting, 3 hit ground
 
+	// Use this for initialization
+	void Start () {
+	}
 	
-	void Start(){
-
+	// Update is called once per frame
+	void Update () {
+		switch(state){
+			case 0:
+			break;
+			case 1:
+				Extend();
+				CheckCollision();
+			break;
+			case 2:
+				Shrink();
+			break;
+			case 3:
+				initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+				
+				if(Vector2.Distance(initial, end) <= 0.5){
+					Destroy(gameObject);
+				}
+			break;
+		}
+		lineRenderer.SetPosition(0, initial);
+		lineRenderer.SetPosition(1, end);
+		Debug.DrawLine(end, target);
 	}
 
-	void Update() {
-		// render line only when the rope is fired
-		if (_ropeFired && _count < _dist) {
-			_count += .1f/_vel;
-			float x = Mathf.Lerp(0, _dist, _count);
-			Vector3 start = _origin;
-			Vector3 end = _destination;
-			Vector3 newEnd;
-			if (_pullRopeBack) {
-				newEnd = end -  x * Vector3.Normalize(end - start);
-			}
-			else {
-				newEnd = x * Vector3.Normalize(end - start) + start;
-			}
-			_lineRenderer.SetPosition(1, newEnd);
-			//_ropeCollisioinScript.CheckCollision(start, newEnd);
-			// Sending signal to the collision check when everything is done
-			if (!_pullRopeBack && ReachedDestCheck (newEnd, _destination)) {
-				_ropeCollisioinScript.ReachedDest = true;
-				Debug.Log  ("Send");
-			} 
-			else if (_pullRopeBack && ReachedDestCheck(_origin, newEnd)) {
-				Destroy (gameObject);
-			}
+	void Shrink(){
+		percent -= vel;
+		float x = Mathf.Lerp(initial.x, target.x, percent);
+		float y = Mathf.Lerp(initial.y, target.y, percent);
+		end = new Vector3(x, y, 0);
+		if(percent <= 0){
+			Destroy(gameObject);
 		}
 	}
+
+	void Extend(){
+		initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+		percent += vel;
+		if(percent >= 1){
+			state = 2;
+		}
+		float x = Mathf.Lerp(initial.x, target.x, percent);
+		float y = Mathf.Lerp(initial.y, target.y, percent);
+		end = new Vector3(x, y, 0);
+	}
+	
+	void CheckCollision(){
+		RaycastHit2D hit = Physics2D.Linecast(initial, end);
+		if(hit.collider == null){
+			Debug.Log("We've hit nothing so far! HOLY HSIT");
+		} else {
+			Debug.Log(hit.collider.tag);
+			if(hit.collider.tag == "Ground"){
+				state = 3;
+				float magnitude = 500 * 1/Vector2.Distance(end, initial);
+				Debug.Log("Mag: " + magnitude);
+				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+			}
+		}
+	}	
+
 	/////////////////////////////////////////////////////////////////
 	/// Fire Rope function
 	/// Description: Entrance Function for rendering a rope on the screen
@@ -61,42 +85,16 @@ public class RopeScript : MonoBehaviour {
 	///              vel: initial velocity 
 	///				 range: the range(length) of the rope 
 	/////////////////////////////////////////////////////////////////
-	public void FireRope (Vector3 pos, float angle, float vel, float range){
-		_lineRenderer = GetComponent<LineRenderer>();
-		_ropeCollisioinScript = GetComponent<RopeCollisionCheckScript>();
-		_ropeFired = false;
-		_destination = Vector3.zero;
-		_origin = Vector3.zero;
-
-		//Actual fire
-		_origin = new Vector3(0, 0, 0);
-		_vel = vel; 
-		_destination.x = Mathf.Sin(angle) * range + _origin.x;
-		_destination.y = Mathf.Cos(angle) * range + _origin.y;
-		_dist = Vector3.Distance(_origin, _destination); 
-		// set up the starting point
-		_lineRenderer.SetPosition(0, _origin);
-		_ropeFired = true;
-	}
-
-	/////////////////////////////////////////////////////////////////// 
-	/// Check if the smooth Damp should stop
-	/// returns 1 if the smooth damp can keep going
-	/// returns 0 if the smooth damp should stop
-	/////////////////////////////////////////////////////////////////// 
-	private bool ReachedDestCheck (Vector3 currPos, Vector3 targetPos) {
-		return (Mathf.Abs(targetPos.x - currPos.x) <= 0.01)
-			 	&& (Mathf.Abs(targetPos.y - currPos.y) <= 0.01);
-	}
-	public void PullRopeBack () {
-		_count = 0;
-		_ropeFired = true;
-		_pullRopeBack = true;
-	}
-
-	public void SwapOriginDest (Vector3 newDest){
-		Vector3 temp = _origin;
-		_origin = newDest;
-		_destination = temp;
+	public void FireRope (float angle, float vel, float range){
+		lineRenderer = GetComponent<LineRenderer>();
+		player = transform.parent.gameObject;
+		state = 1;
+		percent = 0;
+		this.vel = vel;
+		float x = Mathf.Sin(angle) * range + player.transform.position.x;
+		float y = Mathf.Cos(angle) * range + player.transform.position.y;
+		target = new Vector3(x, y, 0);
+		end = player.transform.position;
+		initial = player.transform.position;
 	}
 }

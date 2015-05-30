@@ -86,7 +86,7 @@ public class PlayerScript : MonoBehaviour {
 		float angleRad = angleDeg * Mathf.Deg2Rad;
 		rope = (GameObject) Instantiate(ropePrefab, transform.position, Quaternion.identity);
 		rope.transform.parent = transform;
-		rope.GetComponent<RopeScript>().FireRope(transform.position, angleRad, ropeSpeed, ropeRange);
+		rope.GetComponent<RopeScript>().FireRope(angleRad, ropeSpeed, ropeRange);
 	}
 
 	//To be constantly called to update where the player is firing
