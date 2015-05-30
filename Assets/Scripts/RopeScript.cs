@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(RopeCollisionCheckScript))]
 public class RopeScript : MonoBehaviour {
 	/// <summary>
 	/// test codes	
@@ -11,23 +12,25 @@ public class RopeScript : MonoBehaviour {
 	public float test_vel;
 	public float test_range;
 
-	// line Renderer Controller
+
 	private bool _ropeFired;
-	private LineRenderer _lineRenderer;
 	private Vector3 _destination;
 	private Vector3 _origin;
 	private float _dist;
 	private float _vel;
 	private float _count = 0;
+	private LineRenderer _lineRenderer; 	// line Renderer Controller
+	private RopeCollisionCheckScript _ropeCollisioinScript;
+	
 	void Start(){
 		_lineRenderer = GetComponent<LineRenderer>();
+		_ropeCollisioinScript = GetComponent<RopeCollisionCheckScript>();
 		_ropeFired = false;
 		_destination = Vector3.zero;
 		_origin = Vector3.zero;
-		_dist = 0;
-		_vel = 0;
 		FireRope(test_pos, test_angle, test_vel, test_range);
 	}
+
 	void Update() {
 		// render line only when the rope is fired
 		if (_ropeFired && _count < _dist) {
@@ -40,8 +43,13 @@ public class RopeScript : MonoBehaviour {
 
 			_lineRenderer.SetPosition(1, line);
 
+			// Sending signal to the collision check when everything is done
+			if (ReachedDestCheck (line, _destination)) {
+				_ropeFired = false;
+				_ropeCollisioinScript.ReachedDest = true;
+				Debug.Log  ("Send");
+			}
 		}
-
 	}
 	/////////////////////////////////////////////////////////////////
 	/// Fire Rope function
@@ -60,9 +68,15 @@ public class RopeScript : MonoBehaviour {
 		// set up the starting point
 		_lineRenderer.SetPosition(0, _origin);
 		_ropeFired = true;
-		// set up the ending point
-		//return 1;
 	}
 
-
+	/////////////////////////////////////////////////////////////////// 
+	/// Check if the smooth Damp should stop
+	/// returns 1 if the smooth damp can keep going
+	/// returns 0 if the smooth damp should stop
+	/////////////////////////////////////////////////////////////////// 
+	private bool ReachedDestCheck (Vector3 currPos, Vector3 targetPos) {
+		return (Mathf.Abs(targetPos.x - currPos.x) <= 0.01)
+			 	&& (Mathf.Abs(targetPos.y - currPos.y) <= 0.01);
+	}
 }
