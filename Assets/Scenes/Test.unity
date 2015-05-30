@@ -191,7 +191,53 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
+--- !u!1001 &1213900446
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: .0160480738
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.20859146
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480790, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 25
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 32929e0e12b6d144cb5d7d80b621008a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1980881079
 Prefab:
   m_ObjectHideFlags: 0
@@ -238,6 +284,15 @@ Prefab:
     - target: {fileID: 11499788, guid: d8121dfb221adaa479726e67518484d6, type: 2}
       propertyPath: ropeSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 21255060, guid: d8121dfb221adaa479726e67518484d6, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8064520c983372e4dacfd0f14b81f38f,
+        type: 3}
+    - target: {fileID: 6153642, guid: d8121dfb221adaa479726e67518484d6, type: 2}
+      propertyPath: m_Size.y
+      value: .579999983
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d8121dfb221adaa479726e67518484d6, type: 2}
