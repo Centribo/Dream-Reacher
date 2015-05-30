@@ -12,7 +12,6 @@ public class RopeScript : MonoBehaviour {
 	public float test_vel;
 	public float test_range;
 
-
 	private bool _ropeFired;
 	private Vector3 _destination;
 	private Vector3 _origin;
@@ -22,41 +21,35 @@ public class RopeScript : MonoBehaviour {
 	private bool _pullRopeBack = false;
 	private LineRenderer _lineRenderer; 	// line Renderer Controller
 	private RopeCollisionCheckScript _ropeCollisioinScript;
+
 	
 	void Start(){
-		_lineRenderer = GetComponent<LineRenderer>();
-		_ropeCollisioinScript = GetComponent<RopeCollisionCheckScript>();
-		_ropeFired = false;
-		_destination = Vector3.zero;
-		_origin = Vector3.zero;
-		FireRope(test_pos, test_angle, test_vel, test_range);
+
 	}
 
 	void Update() {
 		// render line only when the rope is fired
 		if (_ropeFired && _count < _dist) {
-
-			float x;
+			_count += .1f/_vel;
+			float x = Mathf.Lerp(0, _dist, _count);
 			Vector3 start = _origin;
 			Vector3 end = _destination;
-			Vector3 line;
+			Vector3 newEnd;
 			if (_pullRopeBack) {
-				_count += .1f/_vel;
-				x = Mathf.Lerp(0, _dist, _count);
-				line = end -  x * Vector3.Normalize(end - start);
+				newEnd = end -  x * Vector3.Normalize(end - start);
 			}
 			else {
-				_count += .1f/_vel;
-				x = Mathf.Lerp(0, _dist, _count);
-				line = x * Vector3.Normalize(end - start) + start;
+				newEnd = x * Vector3.Normalize(end - start) + start;
 			}
-			_lineRenderer.SetPosition(1, line);
-
+			_lineRenderer.SetPosition(1, newEnd);
+			//_ropeCollisioinScript.CheckCollision(start, newEnd);
 			// Sending signal to the collision check when everything is done
-			if (!_pullRopeBack && ReachedDestCheck (line, _destination)) {
-				_ropeFired = false;
+			if (!_pullRopeBack && ReachedDestCheck (newEnd, _destination)) {
 				_ropeCollisioinScript.ReachedDest = true;
 				Debug.Log  ("Send");
+			} 
+			else if (_pullRopeBack && ReachedDestCheck(_origin, newEnd)) {
+				Destroy (gameObject);
 			}
 		}
 	}
@@ -68,8 +61,15 @@ public class RopeScript : MonoBehaviour {
 	///              vel: initial velocity 
 	///				 range: the range(length) of the rope 
 	/////////////////////////////////////////////////////////////////
-	public void FireRope (Vector2 pos, float angle, float vel, float range){
-		_origin = pos;
+	public void FireRope (Vector3 pos, float angle, float vel, float range){
+		_lineRenderer = GetComponent<LineRenderer>();
+		_ropeCollisioinScript = GetComponent<RopeCollisionCheckScript>();
+		_ropeFired = false;
+		_destination = Vector3.zero;
+		_origin = Vector3.zero;
+
+		//Actual fire
+		_origin = new Vector3(0, 0, 0);
 		_vel = vel; 
 		_destination.x = Mathf.Sin(angle) * range + _origin.x;
 		_destination.y = Mathf.Cos(angle) * range + _origin.y;
@@ -92,5 +92,11 @@ public class RopeScript : MonoBehaviour {
 		_count = 0;
 		_ropeFired = true;
 		_pullRopeBack = true;
+	}
+
+	public void SwapOriginDest (Vector3 newDest){
+		Vector3 temp = _origin;
+		_origin = newDest;
+		_destination = temp;
 	}
 }

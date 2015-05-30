@@ -23,16 +23,27 @@ public class RopeCollisionCheckScript : MonoBehaviour {
 			_sentSignal = true;
 		}
 	}
+	public void CheckCollision (Vector3 startPos, Vector3 endPos) {
+		Debug.Log("Reached here");
+		RaycastHit2D raycast = Physics2D.Raycast((Vector2)startPos, (Vector2)endPos);
+		Collider2D collider = raycast.collider;
+		if (collider != null) {
+			Collide (collider);
+		}
 
-	void OnCollisionEnter2D(Collision2D collider) {
+	}
+
+
+	public void Collide(Collider2D collider) {
 		_hitCollider = true;
 		// when the rope hits a player
 		if (collider.gameObject.tag == "Player") {
 
 		}
 		// when the rope hits a platform
-		else if (collider.gameObject.tag == "Platform") {
-
+		else if (collider.gameObject.tag == "Ground") {
+			GetComponent<RopeScript>().SwapOriginDest(collider.transform.position);
+			GetComponent<RopeScript>().PullRopeBack();
 
 		}
 	}
