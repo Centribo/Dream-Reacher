@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour {
 	public float ropeRange;
 	public float ropeSpeed;
 	public float cooldown;
+	public GameObject deathPrefab;
 
 	float stageHeight;
 	float stageWidth;
@@ -120,6 +121,9 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void Die (){
+		GameObject explosion = (GameObject)Instantiate(deathPrefab, new Vector3(transform.position.x, Camera.main.ViewportToWorldPoint(Vector3.zero).y + 1.7f, 0), Quaternion.identity);
+		explosion.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+		Destroy(explosion, 1);
 		Destroy(gameObject);
 	}
 }

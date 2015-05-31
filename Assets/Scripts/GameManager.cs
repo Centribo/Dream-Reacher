@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	public GameObject winnerTextPrefab;
+	public GameObject gameOverPrefab;
 	public int maxScore;
 	public int[] scores;
 	public GameObject playerPrefab;
@@ -10,28 +12,42 @@ public class GameManager : MonoBehaviour {
 	public Color[] colours;
 
 	Vector3 originalPos;
+	static public bool isRunning;
 
 	// Use this for initialization
 	void Start () {
-		originalPos = transform.position;
+		originalPos = Camera.main.transform.position;
 		scores = new int[playersNum];
 		for (int i = 1; i <= playersNum; i++) {
 			scores[i-1] = 0;
 		}
 		SpawnPlayers();
+		isRunning = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-		int playersLeft = players.Length;
-		if(playersLeft == 0){
-			//Debug.Log("Tie!");
-		} else if (playersLeft == 1){
-			scores[players[0].GetComponent<PlayerScript>().playerNumber - 1] ++;
-			Debug.Log("Winner: " + players[0].GetComponent<PlayerScript>().playerNumber);
-			EndRound();
-			StartRound();
+		if(isRunning){
+			GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+			int playersLeft = players.Length;
+			if(playersLeft == 0){
+				EndRound();
+				StartRound();
+			} else if (playersLeft == 1){
+				scores[players[0].GetComponent<PlayerScript>().playerNumber - 1] ++;
+				bool over = false;
+				for(int i = 0; i < scores.Length; i++){
+					if(scores[i] >= maxScore){
+						over = true;
+						isRunning = false;
+						EndGame(i+1);
+					}
+				}
+				if(!over){
+					EndRound();
+					StartRound();
+				}
+			}
 		}
 	}
 
@@ -44,7 +60,7 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnPlayers(){
 		for (int i = 1; i <= playersNum; i++) {
-			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, 1), Quaternion.identity);
 			spawn.GetComponent<PlayerScript>().playerNumber = i;
 			spawn.name = "Player " + i;
 			spawn.transform.localScale = new Vector3(2, 2, 1);
@@ -53,7 +69,19 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void StartRound(){
-		transform.position = originalPos;
+		Camera.main.transform.position = originalPos;
+		Camera.main.GetComponent<CameraScript>().Reset();
 		SpawnPlayers();
+	}
+
+	void EndGame(int winner){
+		foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) {
+			if(o.name != "Main Camera"){
+				Destroy(o, 1);
+			}
+		}
+		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, transform.position + new Vector3(0, 0, 0), Quaternion.identity);
+		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner;
+        //Instantiate(gameOverPrefab, new Vector3(0, 1, 0), Quaternion.identity);
 	}
 }
