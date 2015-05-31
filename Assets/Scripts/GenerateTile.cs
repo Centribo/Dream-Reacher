@@ -68,7 +68,7 @@ public class GenerateTile : MonoBehaviour {
 		return Camera.main.transform.position.y + mapHeight;
 	}
 
-	public void reset(){
+	public void Reset(){
 		var childList = new List<GameObject>();
 		foreach (Transform child in transform){
 			childList.Add(child.gameObject);

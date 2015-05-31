@@ -7,7 +7,7 @@ public class CameraScript : MonoBehaviour {
 	float timeCounter;
 	// Use this for initialization
 	void Start () {
-		timeCounter = 30;
+		timeCounter = 0;
 	}
 	
 	// Update is called once per frame
