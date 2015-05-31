@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour {
 	public float ropeSpeed;
 	public float cooldown;
 
+	float stageHeight;
 	float stageWidth;
 	float cooldownTimer;
 	Animator animator;
@@ -31,6 +32,7 @@ public class PlayerScript : MonoBehaviour {
 		target = new Vector2(0, 0);
 		cooldownTimer = cooldown;
 		stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
+		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
 	}
 	
 	// Update is called once per frame
@@ -60,6 +62,10 @@ public class PlayerScript : MonoBehaviour {
 			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
 		} else if (transform.position.x < -stageWidth){
 			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
+		}
+
+		if(transform.position.y < Camera.main.transform.position.y - stageHeight - 3){
+			Die();
 		}
 	}
 
@@ -111,5 +117,9 @@ public class PlayerScript : MonoBehaviour {
 
 		target = (Vector2)transform.position + new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber));
 		//target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
+	}
+
+	void Die (){
+		Destroy(gameObject);
 	}
 }
