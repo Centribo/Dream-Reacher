@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraScript : MonoBehaviour {
 
 	public float speed;
+	
 	// Use this for initialization
 	void Start () {
 	
