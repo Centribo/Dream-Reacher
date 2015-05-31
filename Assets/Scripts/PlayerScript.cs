@@ -25,6 +25,8 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
+		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
 		animator = GetComponent<Animator>();
 		animator.SetBool("Idle", true);
 		animator.SetBool("Running", false);
@@ -32,13 +34,12 @@ public class PlayerScript : MonoBehaviour {
 		isAiming = false;
 		target = new Vector2(0, 0);
 		cooldownTimer = cooldown;
-		stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
-		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
 		//IsGrounded();
 		cooldownTimer -= Time.deltaTime;
 		if(Input.GetButtonDown("Jump" + playerNumber) && IsGrounded()){
