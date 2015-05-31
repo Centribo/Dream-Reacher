@@ -90,9 +90,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNumber: 0
   ropePrefab: {fileID: 100000, guid: b9a813aafa5e1f046893b3108328d1e9, type: 2}
-  ropeRange: 2.70000005
-  ropeSpeed: 5
-  cooldown: 0
+  ropeRange: 3
+  ropeSpeed: .100000001
+  cooldown: 1
   deathPrefab: {fileID: 157692, guid: 4bd20bd48b7becd4ca7efd8c6c487984, type: 2}
 --- !u!212 &21253326
 SpriteRenderer:
