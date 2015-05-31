@@ -24,7 +24,7 @@ public class BackgroundScript : MonoBehaviour {
 	bool isVisible(GameObject gameObject) {
 		float cameraOffset = Camera.main.transform.position.y;
 		float objectOffset = gameObject.transform.position.y;
-		if (cameraOffset - objectOffset >= 20) {
+		if (cameraOffset - objectOffset >= 17) {
 			return false;
 		}
 		return true;
