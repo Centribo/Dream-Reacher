@@ -18,6 +18,7 @@ public class RopeScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log(Vector2.Distance(end, initial));
 		switch(state){
 			case 0:
 			break;
@@ -29,7 +30,7 @@ public class RopeScript : MonoBehaviour {
 				Shrink();
 			break;
 			case 3:
-				initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+				initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
 				
 				if(Vector2.Distance(initial, end) <= 1){
 					Destroy(gameObject);
@@ -37,7 +38,6 @@ public class RopeScript : MonoBehaviour {
 			break;
 		}
 		UpdateLine();
-		Debug.DrawLine(end, target);
 	}
 
 	void UpdateLine(){
@@ -64,7 +64,7 @@ public class RopeScript : MonoBehaviour {
 	}
 
 	void Extend(){
-		initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+		initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
 		percent += vel;
 		if(percent >= 1){
 			state = 2;
@@ -80,9 +80,14 @@ public class RopeScript : MonoBehaviour {
 		} else {
 			if(hit.collider.tag == "Ground"){
 				state = 3;
-				float magnitude = 500 * 1/Vector2.Distance(end, initial);
-				Debug.Log("Mag: " + magnitude);
+				//float magnitude = 500 * 1/Vector2.Distance(end, initial);
+				float magnitude = 600/Vector2.Distance (end, initial);
 				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+				Destroy(gameObject);
+			} else if(hit.collider.tag == "Player"){
+				float magnitude = 600/Vector2.Distance (end, initial);
+				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+				hit.rigidbody.AddForce((Vector2)(end-initial) * -magnitude);
 				Destroy(gameObject);
 			}
 		}
@@ -106,6 +111,7 @@ public class RopeScript : MonoBehaviour {
 		float y = Mathf.Cos(angle) * range + player.transform.position.y;
 		target = new Vector3(x, y, 0);
 		end = player.transform.position;
-		initial = player.transform.position;
+		initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
+		//Debug.DrawLine (Vector3.zero, initial);
 	}
 }
