@@ -52,6 +52,15 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void EndRound(){
+		GameObject environmentManager = GameObject.Find("EnvironmentManager");
+		environmentManager.GetComponent<EnvironmentScript>().Reset();
+
+		GameObject generateTile = GameObject.Find("PlatformManager");
+		generateTile.GetComponent<GenerateTile>().Reset();
+
+		GameObject backgroundManager = GameObject.Find("Looping Background");
+		backgroundManager.GetComponent<BackgroundScript>().Reset();		
+
 		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 		foreach (GameObject p in players) {
 			Destroy(p);
@@ -80,8 +89,9 @@ public class GameManager : MonoBehaviour {
 				Destroy(o, 1);
 			}
 		}
-		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, transform.position + new Vector3(0, 0, 0), Quaternion.identity);
+		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, Camera.main.transform.position + new Vector3(0, -3, 1), Quaternion.identity);
 		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner;
-        //Instantiate(gameOverPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+        GameObject a = (GameObject)Instantiate(gameOverPrefab, Camera.main.transform.position + new Vector3(0, 1, 1), Quaternion.identity);
+        a.transform.localScale = new Vector3(0.5f, 0.5f, 1);
 	}
 }
