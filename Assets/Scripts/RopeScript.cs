@@ -18,6 +18,7 @@ public class RopeScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log(Vector2.Distance(end, initial));
 		switch(state){
 			case 0:
 			break;
@@ -29,16 +30,27 @@ public class RopeScript : MonoBehaviour {
 				Shrink();
 			break;
 			case 3:
-				initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+				initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
 				
 				if(Vector2.Distance(initial, end) <= 1){
 					Destroy(gameObject);
 				}
 			break;
 		}
+		UpdateLine();
+	}
+
+	void UpdateLine(){
+		float dist = Vector2.Distance(initial, end);
+		int segments = 1+(int)(dist/0.15f);
+		lineRenderer.SetVertexCount(segments);
 		lineRenderer.SetPosition(0, initial);
-		lineRenderer.SetPosition(1, end);
-		Debug.DrawLine(end, target);
+		float deltaX = (end.x - initial.x)/segments;
+		float deltaY = (end.y - initial.y)/segments;
+		for(int i = 1; i < segments; i++){
+			lineRenderer.SetPosition(i, initial + new Vector3(deltaX * i, deltaY * i, 0)); 
+		}
+		lineRenderer.SetPosition(segments-1, end);
 	}
 
 	void Shrink(){
@@ -52,7 +64,7 @@ public class RopeScript : MonoBehaviour {
 	}
 
 	void Extend(){
-		initial = player.transform.position + (Vector3)(Vector2.up * 0.3f);
+		initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
 		percent += vel;
 		if(percent >= 1){
 			state = 2;
@@ -65,14 +77,17 @@ public class RopeScript : MonoBehaviour {
 	void CheckCollision(){
 		RaycastHit2D hit = Physics2D.Linecast(initial, end);
 		if(hit.collider == null){
-			Debug.Log("We've hit nothing so far! HOLY HSIT");
 		} else {
-			Debug.Log(hit.collider.tag);
 			if(hit.collider.tag == "Ground"){
 				state = 3;
-				float magnitude = 500 * 1/Vector2.Distance(end, initial);
-				Debug.Log("Mag: " + magnitude);
+				//float magnitude = 500 * 1/Vector2.Distance(end, initial);
+				float magnitude = 600/Vector2.Distance (end, initial);
 				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+				Destroy(gameObject);
+			} else if(hit.collider.tag == "Player"){
+				float magnitude = 600/Vector2.Distance (end, initial);
+				player.GetComponent<Rigidbody2D>().AddForce((Vector2)(end-initial) * magnitude);
+				hit.rigidbody.AddForce((Vector2)(end-initial) * -magnitude);
 				Destroy(gameObject);
 			}
 		}
@@ -96,6 +111,7 @@ public class RopeScript : MonoBehaviour {
 		float y = Mathf.Cos(angle) * range + player.transform.position.y;
 		target = new Vector3(x, y, 0);
 		end = player.transform.position;
-		initial = player.transform.position;
+		initial = player.transform.position + (Vector3)(Vector2.up * 0.7f);
+		//Debug.DrawLine (Vector3.zero, initial);
 	}
 }
