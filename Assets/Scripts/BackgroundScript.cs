@@ -37,4 +37,10 @@ public class BackgroundScript : MonoBehaviour {
 			return transform.Find ("background1").gameObject;
 		}
 	}
+
+	public void reset() {
+		transform.Find ("background1").position = new Vector3 (0, 0, 0);
+		transform.Find ("background2").position = new Vector3 (0, 18, 0);
+	}
+
 }

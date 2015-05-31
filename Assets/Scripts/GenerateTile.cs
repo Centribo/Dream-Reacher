@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GenerateTile : MonoBehaviour {
 
@@ -36,7 +37,7 @@ public class GenerateTile : MonoBehaviour {
 		obj.transform.parent = transform;
 		float tileWidth = Random.Range (tileLength / 2.0f, tileLength * 1.5f);
 		obj.transform.localScale = new Vector2 (tileWidth, tileLength);
-		obj.AddComponent <TileScript>();
+		obj.AddComponent <DestroyScript>();
 	}
 
 	//Higher chance of picking a number furthur from x0
@@ -65,5 +66,14 @@ public class GenerateTile : MonoBehaviour {
 
 	private float GetCameraHeight() {
 		return Camera.main.transform.position.y + mapHeight;
+	}
+
+	public void reset(){
+		var childList = new List<GameObject>();
+		foreach (Transform child in transform){
+			childList.Add(child.gameObject);
+		}
+		childList.ForEach(child => Destroy(child));
+		Start ();
 	}
 }
