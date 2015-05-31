@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour {
 			animator.SetBool("Running", false);
 		}
 		
-		target = transform.position + (Vector3)new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber));
+		target = transform.position + (Vector3)new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber)) + (Vector3)(Vector2.up * 0.7f);
 		if(Input.GetButtonUp("Aiming" + playerNumber) && cooldownTimer <= 0){ Fire(); }
 		
 		Animate();
@@ -106,7 +106,7 @@ public class PlayerScript : MonoBehaviour {
 	//To be called once to fire a rope
 	void Fire (){
 		cooldownTimer = cooldown;
-		float angleDeg = Mathf.Atan2(target.y - transform.position.y + 0.7f, target.x - transform.position.x) * Mathf.Rad2Deg;
+		float angleDeg = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
 		angleDeg -= 90;
 		angleDeg *= -1;
 		float angleRad = angleDeg * Mathf.Deg2Rad;
