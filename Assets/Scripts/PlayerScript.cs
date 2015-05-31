@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour {
 	public float cooldown;
 	public GameObject deathPrefab;
 
+	LineRenderer lineRenderer;
 	float stageHeight;
 	float stageWidth;
 	float cooldownTimer;
@@ -21,18 +22,19 @@ public class PlayerScript : MonoBehaviour {
 	GameObject rope;
 	Rigidbody2D rb;
 	bool isAiming;
-	Vector2 target; //Used for trig, to show where the player is aiming relative to their pos
+	Vector3 target; //Used for trig, to show where the player is aiming relative to their pos
 
 	// Use this for initialization
 	void Start () {
 		stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
 		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
+		lineRenderer = GetComponent<LineRenderer>();
 		animator = GetComponent<Animator>();
 		animator.SetBool("Idle", true);
 		animator.SetBool("Running", false);
 		rb = GetComponent<Rigidbody2D>();
 		isAiming = false;
-		target = new Vector2(0, 0);
+		target = new Vector3(0, 0, -2);
 		cooldownTimer = cooldown;
 		
 	}
@@ -68,6 +70,8 @@ public class PlayerScript : MonoBehaviour {
 		if(transform.position.y < Camera.main.transform.position.y - Camera.main.orthographicSize - 3){
 			Die();
 		}
+		lineRenderer.SetPosition(0, transform.position);
+		lineRenderer.SetPosition(1, target);
 	}
 
 	bool IsGrounded (){ //Returns true if player is standing on ground, false otherwise
@@ -114,9 +118,8 @@ public class PlayerScript : MonoBehaviour {
 
 	//To be constantly called to update where the player is firing
 	void Aim (){
-		Debug.DrawLine(transform.position, target);
-
-		target = (Vector2)transform.position + new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber));
+		//Debug.DrawLine(transform.position, target);
+		target = transform.position + (Vector3)new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber));
 		//target.x += Mathf.Clamp(Input.GetAxis("Aim"), -0.01f, 0.01f);
 	}
 

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnPlayers(){
 		for (int i = 1; i <= playersNum; i++) {
-			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, 1), Quaternion.identity);
+			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, -2), Quaternion.identity);
 			spawn.GetComponent<PlayerScript>().playerNumber = i;
 			spawn.name = "Player " + i;
 			spawn.transform.localScale = new Vector3(2, 2, 1);
