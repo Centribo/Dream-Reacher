@@ -21,7 +21,6 @@ public class PlayerScript : MonoBehaviour {
 	Animator animator;
 	GameObject rope;
 	Rigidbody2D rb;
-	bool isAiming;
 	Vector3 target; //Used for trig, to show where the player is aiming relative to their pos
 
 	// Use this for initialization
@@ -33,7 +32,6 @@ public class PlayerScript : MonoBehaviour {
 		animator.SetBool("Idle", true);
 		animator.SetBool("Running", false);
 		rb = GetComponent<Rigidbody2D>();
-		isAiming = false;
 		target = new Vector3(0, 0, -2);
 		cooldownTimer = cooldown;
 		
@@ -55,11 +53,12 @@ public class PlayerScript : MonoBehaviour {
 			animator.SetBool("Idle", true);
 			animator.SetBool("Running", false);
 		}
-		if(Input.GetButtonDown("Aiming" + playerNumber)){ isAiming = true; target = (Vector2)transform.position + Vector2.up; }
-		if(Input.GetButtonUp("Aiming" + playerNumber) && cooldownTimer <= 0){ isAiming = false; Fire(); }
-		if(isAiming){ Aim(); }
+		
+		target = transform.position + (Vector3)new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber));
+		if(Input.GetButtonUp("Aiming" + playerNumber) && cooldownTimer <= 0){ Fire(); }
 		
 		Animate();
+
 		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, Mathf.Max(transform.position.y-2.0f, Camera.main.transform.position.y), Camera.main.transform.position.z);
 		if(transform.position.x > stageWidth){
 			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
@@ -70,7 +69,7 @@ public class PlayerScript : MonoBehaviour {
 		if(transform.position.y < Camera.main.transform.position.y - Camera.main.orthographicSize - 3){
 			Die();
 		}
-		lineRenderer.SetPosition(0, transform.position);
+		lineRenderer.SetPosition(0, transform.position + (Vector3)(Vector2.up * 0.7f));
 		lineRenderer.SetPosition(1, target);
 	}
 
@@ -107,7 +106,7 @@ public class PlayerScript : MonoBehaviour {
 	//To be called once to fire a rope
 	void Fire (){
 		cooldownTimer = cooldown;
-		float angleDeg = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
+		float angleDeg = Mathf.Atan2(target.y - transform.position.y + 0.7f, target.x - transform.position.x) * Mathf.Rad2Deg;
 		angleDeg -= 90;
 		angleDeg *= -1;
 		float angleRad = angleDeg * Mathf.Deg2Rad;
