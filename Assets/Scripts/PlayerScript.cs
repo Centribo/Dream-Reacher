@@ -25,7 +25,8 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
+		//stageWidth = Camera.main.ViewportToWorldPoint(Vector3.one).x;
+		stageWidth = 9;
 		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
 		lineRenderer = GetComponent<LineRenderer>();
 		animator = GetComponent<Animator>();
