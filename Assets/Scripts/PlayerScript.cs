@@ -39,7 +39,6 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		stageHeight = Camera.main.ViewportToWorldPoint(Vector3.one).y;
 		//IsGrounded();
 		cooldownTimer -= Time.deltaTime;
 		if(Input.GetButtonDown("Jump" + playerNumber) && IsGrounded()){
@@ -66,7 +65,7 @@ public class PlayerScript : MonoBehaviour {
 			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
 		}
 
-		if(transform.position.y < Camera.main.transform.position.y - stageHeight - 3){
+		if(transform.position.y < Camera.main.transform.position.y - Camera.main.orthographicSize - 3){
 			Die();
 		}
 	}
