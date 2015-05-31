@@ -86,14 +86,12 @@ public class GameManager : MonoBehaviour {
 	void EndGame(int winner){
 		foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) {
 			if(o.name != "Main Camera"){
-				Destroy(o, 0.5f);
+				Destroy(o, 1);
 			}
 		}
-		Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
-		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, new Vector3(0, -3, 1), Quaternion.identity);
+		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, Camera.main.transform.position + new Vector3(0, -3, 1), Quaternion.identity);
 		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner;
-        GameObject a = (GameObject)Instantiate(gameOverPrefab, new Vector3(0, 1, 1), Quaternion.identity);
+        GameObject a = (GameObject)Instantiate(gameOverPrefab, Camera.main.transform.position + new Vector3(0, 1, 1), Quaternion.identity);
         a.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-
 	}
 }
