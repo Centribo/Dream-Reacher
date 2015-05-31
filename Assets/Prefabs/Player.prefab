@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNumber: 0
   ropePrefab: {fileID: 100000, guid: b9a813aafa5e1f046893b3108328d1e9, type: 2}
-  ropeRange: 3
+  ropeRange: 4
   ropeSpeed: .100000001
   cooldown: 1
   deathPrefab: {fileID: 157692, guid: 4bd20bd48b7becd4ca7efd8c6c487984, type: 2}
@@ -123,8 +123,8 @@ LineRenderer:
   - {x: 0, y: 0, z: -1}
   - {x: 0, y: 1, z: -1}
   m_Parameters:
-    startWidth: .100000001
-    endWidth: .100000001
+    startWidth: .0299999993
+    endWidth: 0
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295

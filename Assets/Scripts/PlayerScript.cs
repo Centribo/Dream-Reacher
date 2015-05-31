@@ -61,9 +61,9 @@ public class PlayerScript : MonoBehaviour {
 
 		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, Mathf.Max(transform.position.y-2.0f, Camera.main.transform.position.y), Camera.main.transform.position.z);
 		if(transform.position.x > stageWidth){
-			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
+			transform.position = new Vector3(-stageWidth, transform.position.y, transform.position.z); 
 		} else if (transform.position.x < -stageWidth){
-			transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z); 
+			transform.position = new Vector3(stageWidth, transform.position.y, transform.position.z); 
 		}
 
 		if(transform.position.y < Camera.main.transform.position.y - Camera.main.orthographicSize - 3){
