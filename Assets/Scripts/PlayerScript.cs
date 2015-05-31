@@ -53,7 +53,7 @@ public class PlayerScript : MonoBehaviour {
 			animator.SetBool("Idle", true);
 			animator.SetBool("Running", false);
 		}
-		if(Input.GetButtonDown("Aiming" + playerNumber)){ isAiming = true; Debug.Log("Start aiming!"); target = (Vector2)transform.position + Vector2.up; }
+		if(Input.GetButtonDown("Aiming" + playerNumber)){ isAiming = true; target = (Vector2)transform.position + Vector2.up; }
 		if(Input.GetButtonUp("Aiming" + playerNumber) && cooldownTimer <= 0){ isAiming = false; Fire(); }
 		if(isAiming){ Aim(); }
 		
