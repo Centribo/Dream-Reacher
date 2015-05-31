@@ -56,7 +56,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 		
 		target = transform.position + (Vector3)new Vector2(Input.GetAxis ("AimX" + playerNumber), -Input.GetAxis ("AimY" + playerNumber)) + (Vector3)(Vector2.up * 0.7f);
-		if(Input.GetButtonUp("Aiming" + playerNumber) && cooldownTimer <= 0){ Fire(); }
+		if(Input.GetButtonDown("Aiming" + playerNumber) && cooldownTimer <= 0){ Fire(); }
 		
 		Animate();
 
