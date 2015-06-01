@@ -90,8 +90,8 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		Camera.main.transform.position = Vector3.zero;
-		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, Camera.main.transform.position + new Vector3(0, -3, 1), Quaternion.identity);
-		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner;
+		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, Camera.main.transform.position + new Vector3(0, -3.5f, 1), Quaternion.identity);
+		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner + "\nPress 'N' to play again!";
         GameObject a = (GameObject)Instantiate(gameOverPrefab, Camera.main.transform.position + new Vector3(0, 1, 1), Quaternion.identity);
         a.transform.localScale = new Vector3(0.5f, 0.5f, 1);
 	}

@@ -17,6 +17,10 @@ public class CameraScript : MonoBehaviour {
 		
 		if(GameManager.isRunning){
 			Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y + Mathf.Pow ((timeCounter / 400.0f), 2), Camera.main.transform.position.z);
+		} else {
+			if(Input.GetKey(KeyCode.N)){
+				Application.LoadLevel("MainMenu");
+			}
 		}
 		
 		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
