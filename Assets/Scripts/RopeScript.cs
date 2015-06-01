@@ -18,7 +18,6 @@ public class RopeScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(Vector2.Distance(end, initial));
 		switch(state){
 			case 0:
 			break;
@@ -41,16 +40,18 @@ public class RopeScript : MonoBehaviour {
 	}
 
 	void UpdateLine(){
-		float dist = Vector2.Distance(initial, end);
-		int segments = 1+(int)(dist/0.15f);
-		lineRenderer.SetVertexCount(segments);
+		// float dist = Vector2.Distance(initial, end);
+		// int segments = 1+(int)(dist/0.15f);
+		// lineRenderer.SetVertexCount(segments);
+		// lineRenderer.SetPosition(0, initial);
+		// float deltaX = (end.x - initial.x)/segments;
+		// float deltaY = (end.y - initial.y)/segments;
+		// for(int i = 1; i < segments; i++){
+		// 	lineRenderer.SetPosition(i, initial + new Vector3(deltaX * i, deltaY * i, 0)); 
+		// }
+		// lineRenderer.SetPosition(segments-1, end);
 		lineRenderer.SetPosition(0, initial);
-		float deltaX = (end.x - initial.x)/segments;
-		float deltaY = (end.y - initial.y)/segments;
-		for(int i = 1; i < segments; i++){
-			lineRenderer.SetPosition(i, initial + new Vector3(deltaX * i, deltaY * i, 0)); 
-		}
-		lineRenderer.SetPosition(segments-1, end);
+		lineRenderer.SetPosition(1, end);
 	}
 
 	void Shrink(){

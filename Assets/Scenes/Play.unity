@@ -380,10 +380,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winnerTextPrefab: {fileID: 137960, guid: e55048209ec525643b1d3d543030bc1d, type: 2}
   gameOverPrefab: {fileID: 198026, guid: 9bf8536f38f796a42a49a9ceddc95ce9, type: 2}
-  maxScore: 1
+  maxScore: 3
   scores: 
   playerPrefab: {fileID: 182172, guid: d8121dfb221adaa479726e67518484d6, type: 2}
-  playersNum: 4
+  playersNum: 2
   colours:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}

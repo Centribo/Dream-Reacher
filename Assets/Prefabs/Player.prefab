@@ -13,6 +13,7 @@ GameObject:
   - 61: {fileID: 6195536}
   - 50: {fileID: 5044046}
   - 95: {fileID: 9549942}
+  - 120: {fileID: 12064686}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -90,10 +91,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNumber: 0
   ropePrefab: {fileID: 100000, guid: b9a813aafa5e1f046893b3108328d1e9, type: 2}
-  ropeRange: 2.70000005
-  ropeSpeed: 5
-  cooldown: 0
+  ropeRange: 4
+  ropeSpeed: .100000001
+  cooldown: 1
   deathPrefab: {fileID: 157692, guid: 4bd20bd48b7becd4ca7efd8c6c487984, type: 2}
+--- !u!120 &12064686
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182172}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 1, z: -1}
+  m_Parameters:
+    startWidth: .0299999993
+    endWidth: 0
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!212 &21253326
 SpriteRenderer:
   m_ObjectHideFlags: 1

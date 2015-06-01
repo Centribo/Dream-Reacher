@@ -41,6 +41,7 @@ public class BackgroundScript : MonoBehaviour {
 	public void Reset() {
 		transform.Find ("background1").position = new Vector3 (0, 0, 0);
 		transform.Find ("background2").position = new Vector3 (0, 18, 0);
+		Start();
 	}
 
 }

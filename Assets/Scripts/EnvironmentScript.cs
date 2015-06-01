@@ -19,7 +19,6 @@ public class EnvironmentScript : MonoBehaviour {
 		lastBuildingHeight = 0;
 
 		for (int i=0; i<4; i+=2) {
-			Debug.Log(i);
 			lastBuildingHeight = Random.Range(2, 5);
 			GameObject building = createBuilding(lastBuildingHeight, Random.Range(0+i,2+i), Random.Range(0,2));
 			building.transform.parent = transform;

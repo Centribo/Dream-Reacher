@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnPlayers(){
 		for (int i = 1; i <= playersNum; i++) {
-			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, 1), Quaternion.identity);
+			GameObject spawn = (GameObject) Instantiate(playerPrefab, new Vector3(0, 0, -2), Quaternion.identity);
 			spawn.GetComponent<PlayerScript>().playerNumber = i;
 			spawn.name = "Player " + i;
 			spawn.transform.localScale = new Vector3(2, 2, 1);
@@ -86,9 +86,10 @@ public class GameManager : MonoBehaviour {
 	void EndGame(int winner){
 		foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) {
 			if(o.name != "Main Camera"){
-				Destroy(o, 1);
+				Destroy(o);
 			}
 		}
+		Camera.main.transform.position = Vector3.zero;
 		GameObject winnerText = (GameObject)Instantiate(winnerTextPrefab, Camera.main.transform.position + new Vector3(0, -3, 1), Quaternion.identity);
 		winnerText.GetComponent<TextMesh>().text = "Winner: " + winner;
         GameObject a = (GameObject)Instantiate(gameOverPrefab, Camera.main.transform.position + new Vector3(0, 1, 1), Quaternion.identity);
